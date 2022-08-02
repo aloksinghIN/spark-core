@@ -1,1 +1,1 @@
-# spark-core
+# spark-examples for learning

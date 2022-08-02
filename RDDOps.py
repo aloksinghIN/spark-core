@@ -28,12 +28,12 @@ if __name__ == '__main__':
     sc = spark.sparkContext
     source_rdd = sc.textFile('./data/sparkdoc.text')
     partitioned_rdd = source_rdd.repartition(2)
-    # printRDD(partitioned_rdd)
+    lines = partitioned_rdd.flatMap(lambda line: line.split(' '))
+    words = lines.map(lambda word:(word,1))
+    word_count = words.reduceByKey(lambda value1, value2: value1 + value2)
+    print(word_count.collect())
 
-    # getting partition count
-    # print("source_rdd partiton count", source_rdd.getNumPartitions())
-    # print("partitioned_rdd partiton count", partitioned_rdd.getNumPartitions())
-
-
+    # sort by key
+    print("sorted by key ",word_count.sortByKey().collect())
     # input("Press enter key to break the program")
     print("Ended successfully")

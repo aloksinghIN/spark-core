@@ -20,6 +20,9 @@ if __name__ == '__main__':
     # print("********",os.getcwd())
     source_df = spark.read.format('csv').option("header","true")\
         .load('./data/sample.csv')
-    source_df.show()
-    input("Press enter key to break the program")
+    leave_df = source_df.select(['leave'])
+    leave_df.show()
+    ct_df = leave_df.groupBy('leave').count()
+    ct_df.show()
+    # input("Press enter key to break the program")
     print("Ended successfully")
